@@ -18,6 +18,7 @@ const organizationSchema = {
   telephone: "+62-272-339-3020",
   address: { "@type": "PostalAddress", streetAddress: "Jl. Cempaka No. 40", addressLocality: "Klaten", addressRegion: "Jawa Tengah", addressCountry: "ID" },
   sameAs: ["https://www.instagram.com/klubmbc/"],
+  areaServed: { "@type": "City", name: "Klaten" },
 };
 
 const whatsappNumber = "6285647444042";
@@ -33,6 +34,16 @@ const faq = [
   ["Bagaimana cara menghubungi Klub MBC?", "WhatsApp Mufid di 0856 4744 4042, telepon (0272) 339 3020, atau datang ke Jl. Cempaka No. 40, Klaten."],
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(([question, answer]) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
+};
+
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 function WhatsAppButton({ label = "Konsultasi WhatsApp", message }: { label?: string; message?: string }) {
   return <a className="button button-green" href={whatsappUrl(message)} target="_blank" rel="noreferrer">{label} <Arrow /></a>;
@@ -40,7 +51,7 @@ function WhatsAppButton({ label = "Konsultasi WhatsApp", message }: { label?: st
 
 export default function Home() {
   return <main>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([organizationSchema, faqSchema]).replace(/</g, "\\u003c") }} />
     <header className="site-header"><div className="container nav-wrap"><a className="brand" href="#beranda" aria-label="Bimbel Klub MBC"><img src="/logo-mbc.jpeg" alt="Logo Klub MBC" /></a><nav aria-label="Navigasi utama"><a href="#beranda">Beranda</a><a href="/program">Program</a><a href="/tentang">Tentang Kami</a><a href="/galeri">Galeri</a><a href="/kontak">Kontak</a></nav><WhatsAppButton label="Daftar Sekarang" /><details className="mobile-menu"><summary aria-label="Buka menu"><span /><span /><span /></summary><div className="mobile-menu-links"><a href="#beranda">Beranda</a><a href="/program">Program</a><a href="/tentang">Tentang Kami</a><a href="/galeri">Galeri</a><a href="/kontak">Kontak</a><WhatsAppButton label="Daftar Sekarang" /></div></details></div></header>
     <section className="hero" id="beranda"><div className="hero-star star-a">✦</div><div className="hero-star star-b">✦</div><div className="hero-circle" /><div className="container hero-grid"><div className="hero-copy"><p className="eyebrow">KLUB MBC · BIMBEL PRIVAT & KLASIKAL · KLATEN</p><h1>Cari les<br /><em>untuk anak</em><br />di Klaten?</h1><p className="hero-lead">Di Klub MBC, anak bisa belajar pelajaran sekolah, mengaji, seni, atau karate. Tersedia kelas privat dan kelas bersama.</p><div className="hero-actions"><a className="button button-dark" href="#program">Lihat Program <Arrow /></a><WhatsAppButton label="Konsultasi Sekarang" /></div><div className="hero-note"><span className="note-icon">✓</span><span>Untuk TK, SD, SMP, SMA/K,<br />hingga dewasa</span></div></div><div className="hero-photo"><Image src="/foto-foto/kbm-2.jpeg" alt="Siswa belajar bersama di ruang kelas Klub MBC Klaten" fill priority sizes="(max-width: 800px) 100vw, 50vw" /><span>Suasana belajar di Klub MBC</span></div></div></section>
     <section className="trust-strip"><div className="container trust-content"><span>Les untuk berbagai usia dan minat</span><div><b>AKADEMIK</b><b>KEAGAMAAN</b><b>KREATIVITAS</b><b>BAKAT</b></div></div></section>

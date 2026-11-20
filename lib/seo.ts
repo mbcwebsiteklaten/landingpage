@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
-/** Only use an explicitly configured, verified public origin. */
+const defaultSiteUrl = "https://klubmbc.com";
+
+/** Use the verified production origin, with an environment override for previews. */
 export function siteUrl(): string | undefined {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim() || defaultSiteUrl;
   if (!raw) return undefined;
   try {
     const url = new URL(raw);
@@ -29,5 +31,19 @@ export function pageSeo(path: string, title: string, description: string): Metad
       ...(url ? { url, images: [{ url: `${origin}/foto-foto/kbm-2.jpeg`, width: 1600, height: 1200, alt: "Kegiatan belajar siswa di Klub MBC Klaten" }] } : {}),
     },
     twitter: { card: "summary_large_image", title, description },
+  };
+}
+
+export function breadcrumbSchema(items: Array<{ name: string; path: string }>) {
+  const origin = siteUrl();
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      ...(origin ? { item: `${origin}${item.path}` } : {}),
+    })),
   };
 }
