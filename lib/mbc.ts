@@ -1,4 +1,4 @@
-export const whatsappNumber = "6285647444042";
+export const whatsappNumber = "6281285934971";
 export const whatsappUrl = (message = "Halo Klub MBC, saya ingin bertanya tentang program les yang tersedia.") => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
 export type Program = {
